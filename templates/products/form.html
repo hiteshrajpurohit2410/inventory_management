@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if product else 'Add' }} product — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ 'Edit product' if product else 'Add product' }}</h1>
+<form method="post" class="form-card">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required value="{{ product.name if product else '' }}">
+  </div>
+  <div class="form-group">
+    <label for="category_id">Category</label>
+    <select id="category_id" name="category_id" required>
+      <option value="">— Select —</option>
+      {% for c in categories %}
+      <option value="{{ c.id }}" {{ 'selected' if product and product.category_id == c.id else '' }}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="supplier_id">Supplier</label>
+    <select id="supplier_id" name="supplier_id" required>
+      <option value="">— Select —</option>
+      {% for s in suppliers %}
+      <option value="{{ s.id }}" {{ 'selected' if product and product.supplier_id == s.id else '' }}>{{ s.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="quantity">Quantity (stock)</label>
+    <input type="number" id="quantity" name="quantity" min="0" step="1" required value="{{ product.quantity if product else 0 }}">
+  </div>
+  <div class="form-group">
+    <label for="price">Unit price</label>
+    <input type="text" id="price" name="price" required value="{{ '%.2f'|format(product.price) if product else '' }}" placeholder="0.00">
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ url_for('products.list_products') }}" class="btn btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}

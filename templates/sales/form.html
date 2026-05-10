@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}New bill — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">Create bill</h1>
+<p class="muted" style="margin-top:-0.5rem;">Select products and quantities. Stock is reduced when the bill is saved.</p>
+
+{% if not products %}
+<p class="muted">You need at least one product in inventory before creating a bill.</p>
+<a href="{{ url_for('products.add') }}" class="btn btn-primary">Add product</a>
+{% else %}
+<form method="post" id="bill-form">
+  <div class="form-card" style="max-width:640px;">
+    <div id="line-items">
+      <div class="line-row line-template">
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Product</label>
+          <select name="product_id" class="product-select">
+            <option value="">— Select product —</option>
+            {% for p in products %}
+            <option value="{{ p.id }}" data-price="{{ p.price }}" data-qty="{{ p.quantity }}">{{ p.name }} (stock: {{ p.quantity }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label>Quantity</label>
+          <input type="number" name="quantity" min="1" step="1" value="1">
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="add-line" style="margin-top:0.5rem;">+ Add line</button>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Complete sale</button>
+      <a href="{{ url_for('sales.list_sales') }}" class="btn btn-ghost">Cancel</a>
+    </div>
+  </div>
+</form>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  const container = document.getElementById('line-items');
+  const addBtn = document.getElementById('add-line');
+  if (!container || !addBtn) return;
+
+  addBtn.addEventListener('click', function () {
+    const first = container.querySelector('.line-row');
+    if (!first) return;
+    const clone = first.cloneNode(true);
+    clone.querySelectorAll('select, input').forEach(function (el) {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      if (el.name === 'quantity') el.value = '1';
+    });
+    container.appendChild(clone);
+  });
+})();
+</script>
+{% endblock %}

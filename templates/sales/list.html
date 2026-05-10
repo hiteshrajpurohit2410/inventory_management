@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Sales history — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">Sales history</h1>
+<div class="toolbar">
+  <a href="{{ url_for('sales.new_sale') }}" class="btn btn-primary">New bill</a>
+</div>
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Invoice</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th style="width:140px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in sales %}
+      <tr>
+        <td>{{ s.invoice_number }}</td>
+        <td>{{ s.created_at.strftime('%Y-%m-%d %H:%M') }} UTC</td>
+        <td>{{ "%.2f"|format(s.total_amount) }}</td>
+        <td>
+          <a href="{{ url_for('sales.invoice', sale_id=s.id) }}" class="btn btn-primary" style="padding:0.35rem 0.65rem;">Invoice</a>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" class="muted">No sales yet. Create a bill from “New bill”.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

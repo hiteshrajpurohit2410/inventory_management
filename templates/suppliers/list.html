@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Suppliers — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">Suppliers</h1>
+<div class="toolbar">
+  <a href="{{ url_for('suppliers.add') }}" class="btn btn-primary">Add supplier</a>
+</div>
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Contact</th>
+        <th>Address</th>
+        <th style="width:180px;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for s in suppliers %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.contact }}</td>
+        <td>{{ s.address }}</td>
+        <td>
+          <a href="{{ url_for('suppliers.edit', supplier_id=s.id) }}" class="btn btn-ghost" style="padding:0.35rem 0.65rem;">Edit</a>
+          <form method="post" action="{{ url_for('suppliers.delete', supplier_id=s.id) }}" style="display:inline;" onsubmit="return confirm('Delete this supplier?');">
+            <button type="submit" class="btn btn-danger" style="padding:0.35rem 0.65rem;">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="muted">No suppliers yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

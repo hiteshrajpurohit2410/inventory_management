@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if category else 'Add' }} category — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ 'Edit category' if category else 'Add category' }}</h1>
+<form method="post" class="form-card">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required value="{{ category.name if category else '' }}">
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ url_for('categories.list_categories') }}" class="btn btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}

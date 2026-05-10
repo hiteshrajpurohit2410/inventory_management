@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Invoice {{ sale.invoice_number }} — Inventory MS{% endblock %}
+{% block content %}
+<div class="invoice-actions">
+  <a href="{{ url_for('sales.list_sales') }}" class="btn btn-ghost">← Back to sales</a>
+  <button type="button" class="btn btn-primary" onclick="window.print()">Print</button>
+</div>
+<div class="invoice-sheet">
+  <h2>Invoice</h2>
+  <div class="invoice-meta">
+    <span><strong>{{ sale.invoice_number }}</strong></span>
+    <span>{{ sale.created_at.strftime('%Y-%m-%d %H:%M') }} UTC</span>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Unit price</th>
+        <th>Line total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for line in sale.line_items %}
+      <tr>
+        <td>{{ line.product.name }}</td>
+        <td>{{ line.quantity }}</td>
+        <td>{{ "%.2f"|format(line.unit_price) }}</td>
+        <td>{{ "%.2f"|format(line.line_total) }}</td>
+      </tr>
+      {% endfor %}
+      <tr class="total-row">
+        <td colspan="3" style="text-align:right;">Total</td>
+        <td>{{ "%.2f"|format(sale.total_amount) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

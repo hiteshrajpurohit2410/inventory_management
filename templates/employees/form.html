@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if employee else 'Add' }} employee — Inventory MS{% endblock %}
+{% block content %}
+<h1 class="page-title">{{ 'Edit employee' if employee else 'Add employee' }}</h1>
+<form method="post" class="form-card">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required value="{{ employee.name if employee else '' }}">
+  </div>
+  <div class="form-group">
+    <label for="role">Role</label>
+    <input type="text" id="role" name="role" required value="{{ employee.role if employee else '' }}">
+  </div>
+  <div class="form-group">
+    <label for="contact">Contact</label>
+    <input type="text" id="contact" name="contact" required value="{{ employee.contact if employee else '' }}" placeholder="Phone or email">
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ url_for('employees.list_employees') }}" class="btn btn-ghost">Cancel</a>
+  </div>
+</form>
+{% endblock %}
