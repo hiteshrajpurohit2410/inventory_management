@@ -1,3 +1,4 @@
+
 # Inventory Management System
 
 A beginner-friendly portfolio project: session-based authentication, CRUD modules for employees, suppliers, categories, and products, plus multi-line billing with SQLite/SQLAlchemy and an invoice view.
@@ -65,3 +66,7 @@ For production, set a strong **`SECRET_KEY`** environment variable and never use
 
 - **Product → Category / Supplier:** many-to-one each.
 - **Sale ↔ Product:** many-to-many implemented with **`SaleLineItem`** (stores quantity and prices at sale time).
+
+# inventory_management
+Inventory Management System using Python, Flask and MySQL for product management and CRUD operations.
+
